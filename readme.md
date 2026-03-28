@@ -4,8 +4,8 @@ A beautifully designed, highly responsive, real-time year progress tracking web 
 
 ## 🚀 Features
 
-- **Offline Capability**
-  As a single HTML file, it runs without an internet connection once loaded. An external CDN is only required for the image export feature.
+- **Offline-friendly**
+  Core layout and logic live in local files (`index.html`, `styles.css`, `script.js`). CDNs are used for fonts, screenshot export (`dom-to-image-more`), and copy toasts (`toastify-js`).
 
 - **Real-Time Tracking**
   Calculates the exact percentage of the year elapsed, up to 2 decimal places, with seamless updates.
@@ -32,22 +32,37 @@ A beautifully designed, highly responsive, real-time year progress tracking web 
 ## 🛠️ Technology Stack
 
 - **HTML5**
-  Single-page structure
+  Markup in `index.html`
 
 - **CSS3 (Vanilla)**
-  Flexbox, Grid, custom keyframe animations, and UI styling
+  All styling in `styles.css`: flexbox, grid, keyframe animations, and theme layouts
 
 - **JavaScript (Vanilla ES6)**
-  Handles date/time logic, theme switching, and DOM manipulation
+  Logic in `script.js`: date/time, themes, GitHub grid, export, URL helpers
 
-- **External Library**
-  `dom-to-image-more` for high-resolution screenshots
+- **External libraries**
+  `dom-to-image-more` (screenshots), Toastify (copy feedback), Google Fonts
 
 ## 💻 How to Use
 
-1. Open the [index.html](https://nahian.pro.bd/year) file in any modern web browser.
-2. Double-click anywhere on the screen, or click the 🎨 (palette) button to switch themes.
-3. Click the 📥 (download) button to capture and save a high-resolution screenshot of your current view.
+1. Open [index.html](https://nahian.pro.bd/year) in a modern browser (keep `styles.css` and `script.js` next to it if you run it locally).
+2. Double-click anywhere on the page, or use the 🎨 button to cycle themes.
+3. Use 📥 to save a high-resolution screenshot.
+4. Use 🔗 to copy a share URL that includes `hide_config` and the current `theme`.
+
+### URL query parameters
+
+- **`theme`** — Open a specific theme by slug (e.g. `github`, `win7`) or full token (e.g. `theme-github`).
+- **`hide_config`** — Hides the bottom control bar (embed-friendly). Double-click theme switching is disabled in this mode.
+
+## 📁 Project files
+
+| File | Role |
+|------|------|
+| `index.html` | Page structure, CDN links |
+| `styles.css` | All theme and layout CSS |
+| `script.js` | App behavior |
+| `preview.png` | Readme preview image |
 
 ## 👤 Author
 

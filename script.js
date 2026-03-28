@@ -19,9 +19,10 @@ const themes = [
 
 // Retrieve saved theme from localStorage, default to 0 if none exists
 let currentThemeIndex =
-  localStorage.getItem("yearProgressThemeIndex") !== null
-    ? parseInt(localStorage.getItem("yearProgressThemeIndex"))
-    : 0;
+  parseInt(localStorage.getItem("yearProgressThemeIndex"), 10) || 0;
+if (currentThemeIndex < 0 || currentThemeIndex >= themes.length) {
+  currentThemeIndex = 0;
+}
 let lastDaysPassed = -1;
 let currentYear = new Date().getFullYear();
 
@@ -47,7 +48,7 @@ const hideConfigFromQuery = pageUrlParams.has("hide_config");
 document.body.className = themes[currentThemeIndex];
 
 const actionButtonsEl = document.getElementById("action-buttons");
-if (hideConfigFromQuery) {
+if (hideConfigFromQuery && actionButtonsEl) {
   actionButtonsEl.classList.add("hide-config-ui");
 }
 
@@ -88,11 +89,7 @@ function showCopyToast(message, isError) {
     gravity: "top",
     position: "right",
     stopOnFocus: true,
-    style: {
-      background: isError
-        ? "linear-gradient(to right, #7f1d1d, #dc2626)"
-        : "linear-gradient(to right, #065f46, #10b981)",
-    },
+    className: isError ? "toast-error" : "toast-success",
   }).showToast();
 }
 
@@ -158,6 +155,10 @@ document.getElementById("btn-download-img").addEventListener("click", () => {
   });
 });
 
+function isLeapYear(year) {
+  return (year % 4 === 0 && year % 100 > 0) || year % 400 === 0;
+}
+
 // Initialize GitHub Graph Layout
 function initGithub() {
   const grid = document.getElementById("gh-grid");
@@ -176,8 +177,7 @@ function initGithub() {
   }
 
   // Generate cells for all days in the year
-  const daysInYear =
-    (year % 4 === 0 && year % 100 > 0) || year % 400 === 0 ? 366 : 365;
+  const daysInYear = isLeapYear(year) ? 366 : 365;
 
   for (let i = 0; i < daysInYear; i++) {
     let cell = document.createElement("div");
@@ -215,8 +215,7 @@ function updateProgress() {
     (startOfToday - startOfYear) / (1000 * 60 * 60 * 24),
   );
 
-  const daysInYear =
-    (year % 4 === 0 && year % 100 > 0) || year % 400 === 0 ? 366 : 365;
+  const daysInYear = isLeapYear(year) ? 366 : 365;
   const daysRemaining = daysInYear - daysPassed;
 
   // Standard Text Updates
@@ -291,6 +290,6 @@ function updateProgress() {
   if (win7Fill) win7Fill.style.width = percentage + "%";
 }
 
-// Run immediately, then update every 50ms
+// Run immediately, then once per second (matches second-level clock; lighter on CPU)
 updateProgress();
-setInterval(updateProgress, 50);
+setInterval(updateProgress, 1000);

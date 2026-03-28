@@ -828,6 +828,15 @@ body.theme-github .github-only {
   display: none !important;
 }
 
+/* Toastify (copy URL feedback) */
+.toast-success {
+  background: linear-gradient(to right, #065f46, #10b981);
+}
+
+.toast-error {
+  background: linear-gradient(to right, #7f1d1d, #dc2626);
+}
+
 /* Specific button tweaks for lighter/classic themes */
 body.theme-clay .action-buttons button {
   background: #161b19;
